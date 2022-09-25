@@ -22,4 +22,5 @@ make
 make install
 make libinstall
 
+cd ..
 rm -rf python-1.1  python1.1.tar.gz	readline-2.0  readline-2.0.tar.gz
