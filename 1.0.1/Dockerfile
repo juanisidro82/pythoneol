@@ -1,8 +1,24 @@
 FROM juanisidro82/debianeol::potato
 
 ADD https://legacy.python.org/download/releases/src/python1.0.1.tar.gz .
-ADD https://raw.githubusercontent.com/juanisidro82/pythoneol/main/1.0.1/compile-python-1.0.1.sh .
 
-RUN chmod +x compile-python-1.0.1.sh
-RUN ./compile-python-1.0.1.sh
-RUN rm compile-python-1.0.1.sh
+RUN tar -xvvzf python1.0.1.tar.gz &&
+cd python-1.0.1
+sed -e "s/#dbm dbmmodule.o/dbm dbmmodule.o/g" python-1.0.1/Modules/Setup.in > Modules/Setup2.in
+sed -e  "s/ndbm.h/gdbm-ndbm.h/g" Modules/dbmmodule.c > Modules/dbmmodule2.c
+rm Modules/Setup.in
+rm Modules/dbmmodule.c
+mv Modules/Setup2.in Modules/Setup.in
+mv Modules/dbmmodule2.c Modules/dbmmodule.c
+
+
+./configure --with-readline="/usr/include/readline" --with-libc=-lgdbm
+make
+make install
+make libinstall
+
+
+cd ..
+rm -rf python-1.0.1
+rm python1.0.1.tar.gz 
+
