@@ -13,5 +13,5 @@ RUN set -eux; \
     ./configure --with-readline="/usr/include/readline" --with-libc=-lgdbm;\
     make && make install && make libinstall && cd ..;\ 
 # removal of files used for compilation
-    rm python1.0.1.tar.gz && rm -rf python-1.0.1 
+    rm -rf python-1.0.1 
 
